@@ -1,7 +1,7 @@
 import html from "html-literal";
 
-export default () => html`
+export default state => html`
   <footer>
-    &copy; 2020 <a href="https://savvycoders.com/">Savvy Coders</a>
+    &copy; ${state.year} <a href="https://savvycoders.com/">Savvy Coders</a>
   </footer>
 `;
