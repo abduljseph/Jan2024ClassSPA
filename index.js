@@ -1,14 +1,11 @@
-// imports
 import { Header, Nav, Main, Footer } from "./components";
 import * as store from "./store";
 import Navigo from "navigo";
 import { capitalize } from "lodash";
 import axios from "axios";
 
-// router
 const router = new Navigo("/");
 
-// render
 function render(state = store.Home) {
   document.querySelector("#root").innerHTML = `
       ${Header(state)}
@@ -35,13 +32,14 @@ router.hooks({
     if (params && params.data && params.data.view) {
       view = capitalize(params.data.view);
     }
+
     // Add a switch case statement to handle multiple routes
     switch (view) {
       // Add a case for each view that needs data from an API
       case "Home":
         axios
           .get(
-            `https://api.openweathermap.org/data/2.5/weather?APPID=${process.env.OPEN_WEATHER_MAP_API_KEY}&q=98327`
+            `https://api.openweathermap.org/data/2.5/weather?APPID=${process.env.OPEN_WEATHER_MAP_API_KEY}&q=st. louis`
           )
           .then(response => {
             console.log(response);
@@ -66,7 +64,10 @@ router.hooks({
           .then(response => {
             // We need to store the response to the state, in the next step but in the meantime let's see what it looks like so that we know what to store from the response.
             console.log("response", response);
+            console.log("response data", response.data);
+
             store.Pizza.pizzas = response.data;
+
             done();
           })
           .catch(error => {
@@ -74,8 +75,13 @@ router.hooks({
             done();
           });
         break;
+      case "Menu":
+        // Do stuff here
+        done();
+        break;
       default:
         done();
+        break;
     }
   },
   already: params => {
@@ -102,5 +108,4 @@ router
       }
     }
   })
-
   .resolve();
