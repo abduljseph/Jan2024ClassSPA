@@ -14,7 +14,7 @@ function render(state = store.Home) {
       ${Header(state)}
       ${Nav(store.Links)}
       ${Main(state)}
-      ${Footer()}
+      ${Footer(store.Footer)}
     `;
   router.updatePageLinks();
   afterRender();
@@ -30,10 +30,11 @@ function afterRender() {
 router.hooks({
   before: (done, params) => {
     // We need to know what view we are on to know what data to fetch
-    const view =
-      params && params.data && params.data.view
-        ? capitalize(params.data.view)
-        : "Home";
+    // const view = params && params.data && params.data.view ? capitalize(params.data.view) : "Home";
+    let view = "Home";
+    if (params && params.data && params.data.view) {
+      view = capitalize(params.data.view);
+    }
     // Add a switch case statement to handle multiple routes
     switch (view) {
       // Add a case for each view that needs data from an API
